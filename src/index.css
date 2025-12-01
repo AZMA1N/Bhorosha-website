@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --color-forest-green: #1A4D2E;
+  --color-soft-clay: #E8DCCA;
+  --color-tech-blue: #3B82F6;
+  --color-off-white: #F9FAFB;
+  
+  --font-sans: Inter, Roboto, sans-serif;
+}
+
+:root {
+  --forest-green: #1A4D2E;
+  --soft-clay: #E8DCCA;
+  --tech-blue: #3B82F6;
+  --off-white: #F9FAFB;
+}
+
+body {
+  background-color: var(--off-white);
+  color: var(--forest-green);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Glassmorphism Utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+}
+
+.anti-gravity-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
