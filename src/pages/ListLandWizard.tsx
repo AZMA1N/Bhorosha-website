@@ -30,8 +30,32 @@ const ListLandWizard = () => {
         if (currentStep < steps.length) {
             setCurrentStep(prev => prev + 1);
         } else {
-            // Submit
-            navigate('/dashboard');
+            handleSubmit();
+        }
+    };
+
+    const handleSubmit = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/api/land/list', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ...formData,
+                    ownerId: 'mock-owner-id' // Replace with actual user ID from auth context
+                }),
+            });
+
+            if (response.ok) {
+                alert('Land listed successfully!');
+                navigate('/dashboard');
+            } else {
+                alert('Failed to list land.');
+            }
+        } catch (error) {
+            console.error('Error listing land:', error);
+            alert('An error occurred.');
         }
     };
 
@@ -73,8 +97,8 @@ const ListLandWizard = () => {
                                     }`}
                             >
                                 <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all ${step.id <= currentStep
-                                        ? 'bg-forest-green text-white border-forest-green'
-                                        : 'bg-white border-gray-300'
+                                    ? 'bg-forest-green text-white border-forest-green'
+                                    : 'bg-white border-gray-300'
                                     }`}>
                                     {step.icon}
                                 </div>
@@ -187,8 +211,8 @@ const ListLandWizard = () => {
                                         <button
                                             onClick={() => setFormData({ ...formData, ownershipType: 'single' })}
                                             className={`p-4 rounded-xl border-2 transition-all text-left ${formData.ownershipType === 'single'
-                                                    ? 'border-forest-green bg-forest-green/5'
-                                                    : 'border-gray-200 hover:border-forest-green/50'
+                                                ? 'border-forest-green bg-forest-green/5'
+                                                : 'border-gray-200 hover:border-forest-green/50'
                                                 }`}
                                         >
                                             <span className="block font-bold text-forest-green mb-1">Single Owner</span>
@@ -197,8 +221,8 @@ const ListLandWizard = () => {
                                         <button
                                             onClick={() => setFormData({ ...formData, ownershipType: 'joint' })}
                                             className={`p-4 rounded-xl border-2 transition-all text-left ${formData.ownershipType === 'joint'
-                                                    ? 'border-forest-green bg-forest-green/5'
-                                                    : 'border-gray-200 hover:border-forest-green/50'
+                                                ? 'border-forest-green bg-forest-green/5'
+                                                : 'border-gray-200 hover:border-forest-green/50'
                                                 }`}
                                         >
                                             <span className="block font-bold text-forest-green mb-1">Joint Ownership</span>

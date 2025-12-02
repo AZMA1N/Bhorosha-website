@@ -1,13 +1,33 @@
+import { useState, useEffect } from 'react';
 import { GlassCard } from '../ui/GlassCard';
 import { TrendingUp, DollarSign } from 'lucide-react';
 
 const EarningsWidget = () => {
+    const [earnings, setEarnings] = useState(0);
+
+    useEffect(() => {
+        const fetchEarnings = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/api/landowner/dashboard');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                setEarnings(data.earnings);
+            } catch (error) {
+                console.error('Failed to fetch earnings:', error);
+                setEarnings(0);
+            }
+        };
+        fetchEarnings();
+    }, []);
+
     return (
         <GlassCard className="h-full bg-gradient-to-br from-forest-green to-[#0F3D2E] text-white border-none">
             <div className="flex justify-between items-start mb-6">
                 <div>
                     <p className="text-white/70 text-sm font-medium mb-1">Total Earnings</p>
-                    <h3 className="text-3xl font-bold">৳ 50,000</h3>
+                    <h3 className="text-3xl font-bold">৳ {earnings.toLocaleString()}</h3>
                 </div>
                 <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm">
                     <DollarSign className="w-6 h-6 text-white" />

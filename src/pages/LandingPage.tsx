@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, TrendingUp, Users, ShieldCheck, Sprout } from 'lucide-react';
 import { GlassCard } from '../components/ui/GlassCard';
 import { Button } from '../components/ui/Button';
+import { Navbar } from '../components/layout/Navbar';
 
 const LandingPage = () => {
     const { scrollY } = useScroll();
@@ -10,6 +11,7 @@ const LandingPage = () => {
 
     return (
         <div className="min-h-screen overflow-hidden">
+            <Navbar />
             {/* Hero Section */}
             <section className="relative h-screen flex items-center justify-center overflow-hidden">
                 {/* Background Image with Parallax */}

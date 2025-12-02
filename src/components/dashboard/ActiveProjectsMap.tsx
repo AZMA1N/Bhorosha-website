@@ -1,40 +1,55 @@
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { GlassCard } from '../ui/GlassCard';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+
+// Fix for default marker icon
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+
+let DefaultIcon = L.icon({
+    iconUrl: icon,
+    shadowUrl: iconShadow,
+    iconSize: [25, 41],
+    iconAnchor: [12, 41]
+});
+
+L.Marker.prototype.options.icon = DefaultIcon;
 
 const ActiveProjectsMap = () => {
+    // Mock data for active projects (Bangladesh coordinates)
+    const projects = [
+        { id: 1, name: "Savar Model Farm", lat: 23.8483, lng: 90.2674, crop: "Potato" },
+        { id: 2, name: "Gazipur Orchard", lat: 24.0958, lng: 90.4125, crop: "Mango" },
+        { id: 3, name: "Comilla Rice Field", lat: 23.4607, lng: 91.1809, crop: "Rice" }
+    ];
+
     return (
-        <GlassCard className="h-full min-h-[300px] relative overflow-hidden group">
-            <div className="absolute top-4 left-4 z-10">
-                <h3 className="text-lg font-bold text-forest-green">Active Projects</h3>
-                <p className="text-sm text-gray-500">2 Locations Managed</p>
-            </div>
-
-            {/* Map Image Placeholder */}
-            <img
-                src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2074&auto=format&fit=crop"
-                alt="Map View"
-                className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700"
-            />
-
-            {/* Map Pins */}
-            <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 group/pin">
-                <div className="relative">
-                    <div className="w-4 h-4 bg-forest-green rounded-full border-2 border-white animate-ping absolute inset-0" />
-                    <div className="w-4 h-4 bg-forest-green rounded-full border-2 border-white relative z-10" />
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-white px-3 py-1 rounded-lg shadow-lg text-xs font-bold text-forest-green whitespace-nowrap opacity-0 group-hover/pin:opacity-100 transition-opacity">
-                        Savar Model Farm
-                    </div>
-                </div>
-            </div>
-
-            <div className="absolute top-1/3 left-2/3 -translate-x-1/2 -translate-y-1/2 group/pin">
-                <div className="relative">
-                    <div className="w-4 h-4 bg-forest-green rounded-full border-2 border-white animate-ping absolute inset-0 animation-delay-500" />
-                    <div className="w-4 h-4 bg-forest-green rounded-full border-2 border-white relative z-10" />
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-white px-3 py-1 rounded-lg shadow-lg text-xs font-bold text-forest-green whitespace-nowrap opacity-0 group-hover/pin:opacity-100 transition-opacity">
-                        Gazipur Poultry
-                    </div>
-                </div>
-            </div>
+        <GlassCard className="h-[400px] relative overflow-hidden z-0">
+            <h3 className="text-xl font-bold text-forest-green mb-4 absolute top-6 left-6 z-[400] bg-white/80 backdrop-blur-sm px-4 py-2 rounded-lg">
+                Active Projects
+            </h3>
+            <MapContainer
+                center={[23.8103, 90.4125]}
+                zoom={7}
+                scrollWheelZoom={false}
+                className="h-full w-full"
+            >
+                <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                {projects.map((project) => (
+                    <Marker key={project.id} position={[project.lat, project.lng]}>
+                        <Popup>
+                            <div className="text-center">
+                                <h4 className="font-bold text-forest-green">{project.name}</h4>
+                                <p className="text-sm text-gray-600">Crop: {project.crop}</p>
+                            </div>
+                        </Popup>
+                    </Marker>
+                ))}
+            </MapContainer>
         </GlassCard>
     );
 };

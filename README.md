@@ -1,73 +1,88 @@
-# React + TypeScript + Vite
+# Bhorosha - Agri-Tech Land Management Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Bhorosha is a modern, high-trust digital land leasing platform designed to connect landowners with agricultural experts to optimize land potential. The platform features a unique "Anti-Gravity" and "Glassmorphism" aesthetic to inspire trust and growth.
 
-Currently, two official plugins are available:
+![Bhorosha Landing Page](./public/vite.svg) 
+*(Note: Replace with actual screenshot)*
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## React Compiler
+- **Landing Page**: Stunning "Anti-Gravity" design with parallax effects, floating cards, and interactive "How it Works" flow.
+- **Authentication**: Secure login portals for Landowners (Phone/OTP) and Admins (Email/Password).
+- **Landowner Dashboard**:
+  - **Command Center**: Overview of earnings and active projects.
+  - **Live Feed**: Real-time visual updates from on-ground agents.
+  - **Earnings Widget**: Visual trend analysis of income.
+- **List Your Land Wizard**: Frictionless multi-step form for listing new properties.
+- **Admin Dashboard**:
+  - **Resource Management**: Assign Agriculture, Legal, and Weather experts.
+  - **Financial Overview**: Track B2B sales and payouts.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠 Tech Stack
 
-## Expanding the ESLint configuration
+- **Frontend**: React (Vite)
+- **Styling**: Tailwind CSS (v4)
+- **Animations**: Framer Motion
+- **Icons**: Lucide React
+- **Routing**: React Router DOM
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📦 Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Prerequisites
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Node.js (v18 or higher)
+- npm or yarn
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/bhorosha-website.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd bhorosha-website
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+### Running the Project
+
+Start the development server:
+```bash
+npm run dev
+```
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+### Building for Production
+
+Build the project for production:
+```bash
+npm run build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📂 Project Structure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+├── components/
+│   ├── admin/          # Admin dashboard components
+│   ├── dashboard/      # Landowner dashboard components
+│   └── ui/             # Reusable UI components (GlassCard, Button)
+├── pages/              # Page components (Landing, Login, Dashboards)
+├── App.tsx             # Main application component with routing
+└── index.css           # Global styles and Tailwind configuration
+```
+
+## 🔮 Future Roadmap
+
+- [ ] **Backend Integration**: Connect to Node.js/PostgreSQL backend.
+- [ ] **Real-time Maps**: Integrate Google Maps or Leaflet for land visualization.
+- [ ] **Authentication**: Implement real JWT-based authentication.
+- [ ] **Payment Gateway**: Integrate payment processing for payouts.
+
+## 📄 License
+
+This project is licensed under the MIT License.
