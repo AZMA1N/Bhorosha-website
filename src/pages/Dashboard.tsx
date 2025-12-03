@@ -1,30 +1,75 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { DashboardLayout } from '../components/layout/DashboardLayout';
 import EarningsWidget from '../components/dashboard/EarningsWidget';
 import ActiveProjectsMap from '../components/dashboard/ActiveProjectsMap';
 import LiveFeed from '../components/dashboard/LiveFeed';
+import { useAuth } from '../context/AuthContext';
+import { LogOut } from 'lucide-react';
 
 const Dashboard = () => {
+    const { user, isAuthenticated, logout } = useAuth();
+    const navigate = useNavigate();
+
+    // Redirect if not authenticated or if admin
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate('/login');
+        } else if (user?.role === 'admin') {
+            navigate('/admin');
+        }
+    }, [isAuthenticated, user, navigate]);
+
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
+
+    if (!user) return null;
+
     return (
         <DashboardLayout>
             <header className="flex justify-between items-center mb-8">
                 <div>
-                    <h1 className="text-3xl font-bold text-forest-green">Welcome back, Samiur</h1>
+                    <h1 className="text-3xl font-bold text-forest-green">Welcome back, {user.name.split(' ')[0]}</h1>
                     <p className="text-gray-500">Here's what's happening on your lands today.</p>
                 </div>
                 <div className="flex items-center gap-4">
                     <div className="text-right hidden md:block">
-                        <p className="font-bold text-gray-800">Samiur Rahman</p>
-                        <p className="text-xs text-gray-500">Landowner</p>
+                        <p className="font-bold text-gray-800">{user.name}</p>
+                        <p className="text-xs text-gray-500">Landowner • {user.email}</p>
                     </div>
-                    <div className="w-12 h-12 rounded-full bg-forest-green/10 border-2 border-forest-green p-1">
-                        <img
-                            src="https://api.dicebear.com/7.x/avataaars/svg?seed=Samiur"
-                            alt="Profile"
-                            className="w-full h-full rounded-full"
-                        />
+                    <div className="w-12 h-12 rounded-full bg-forest-green flex items-center justify-center text-white font-bold text-lg border-2 border-white shadow-lg">
+                        {user.avatar || user.name.substring(0, 2).toUpperCase()}
                     </div>
+                    <button
+                        onClick={handleLogout}
+                        className="p-2 rounded-lg hover:bg-red-50 text-gray-500 hover:text-red-600 transition-colors"
+                        title="Logout"
+                    >
+                        <LogOut className="w-5 h-5" />
+                    </button>
                 </div>
             </header>
+
+            {/* User Info Card */}
+            <div className="mb-6 p-4 bg-gradient-to-r from-forest-green/10 to-green-50 rounded-2xl border border-forest-green/20">
+                <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 rounded-full bg-forest-green flex items-center justify-center text-white font-bold text-xl border-2 border-white shadow-lg">
+                        {user.avatar || user.name.substring(0, 2).toUpperCase()}
+                    </div>
+                    <div>
+                        <h2 className="text-xl font-bold text-forest-green">{user.name}</h2>
+                        <p className="text-sm text-gray-600">@{user.username} • {user.email}</p>
+                        {user.phone && <p className="text-sm text-gray-500">{user.phone}</p>}
+                    </div>
+                    <div className="ml-auto text-right">
+                        <span className="inline-block px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+                            Active Landowner
+                        </span>
+                    </div>
+                </div>
+            </div>
 
             <div className="grid grid-cols-12 gap-6">
                 {/* Earnings Widget - Spans 12 md:4 */}
@@ -49,13 +94,16 @@ const Dashboard = () => {
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
                                 <div className="text-white">
-                                    <h3 className="font-bold text-lg">Savar Model Farm</h3>
+                                    <h3 className="font-bold text-lg">{user.name}'s Farm</h3>
                                     <p className="text-sm opacity-90">12.5 Acres • Active</p>
                                 </div>
                             </div>
                         </div>
-                        <button className="w-full mt-4 py-3 rounded-xl border-2 border-forest-green text-forest-green font-bold hover:bg-forest-green hover:text-white transition-all">
-                            View All Properties
+                        <button 
+                            onClick={() => navigate('/list-land')}
+                            className="w-full mt-4 py-3 rounded-xl border-2 border-forest-green text-forest-green font-bold hover:bg-forest-green hover:text-white transition-all"
+                        >
+                            List New Land
                         </button>
                     </div>
                 </div>

@@ -1,10 +1,32 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import ResourceManagement from '../components/admin/ResourceManagement';
 import LandListings from '../components/admin/LandListings';
 import { Logo } from '../components/ui/Logo';
 import { CountUp } from '../components/ui/CountUp';
-import { TrendingUp, ArrowUpRight } from 'lucide-react';
+import { TrendingUp, ArrowUpRight, LogOut } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const AdminDashboard = () => {
+    const { user, isAuthenticated, logout } = useAuth();
+    const navigate = useNavigate();
+
+    // Redirect if not authenticated or not admin
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate('/login');
+        } else if (user?.role !== 'admin') {
+            navigate('/dashboard');
+        }
+    }, [isAuthenticated, user, navigate]);
+
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
+
+    if (!user || user.role !== 'admin') return null;
+
     return (
         <div className="min-h-screen bg-off-white p-8">
             <header className="flex justify-between items-center mb-8">
@@ -18,12 +40,19 @@ const AdminDashboard = () => {
                 </div>
                 <div className="flex items-center gap-4">
                     <div className="text-right hidden md:block">
-                        <p className="font-semibold text-forest-green">System Admin</p>
-                        <p className="text-xs text-gray-500">Super User</p>
+                        <p className="font-semibold text-forest-green">{user.name}</p>
+                        <p className="text-xs text-gray-500">{user.email}</p>
                     </div>
                     <div className="w-12 h-12 bg-forest-green rounded-full flex items-center justify-center text-white font-bold shadow-lg border-2 border-white">
-                        AD
+                        {user.avatar || 'AD'}
                     </div>
+                    <button
+                        onClick={handleLogout}
+                        className="p-2 rounded-lg hover:bg-red-50 text-gray-500 hover:text-red-600 transition-colors"
+                        title="Logout"
+                    >
+                        <LogOut className="w-5 h-5" />
+                    </button>
                 </div>
             </header>
 

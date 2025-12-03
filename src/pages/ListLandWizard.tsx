@@ -4,6 +4,7 @@ import { GlassCard } from '../components/ui/GlassCard';
 import { Button } from '../components/ui/Button';
 import { MapPin, Ruler, FileText, CheckCircle, ArrowLeft, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useLandListings } from '../context/LandListingsContext';
 
 const steps = [
     { id: 1, title: "Location", icon: <MapPin className="w-5 h-5" /> },
@@ -14,6 +15,7 @@ const steps = [
 
 const ListLandWizard = () => {
     const navigate = useNavigate();
+    const { addListing } = useLandListings();
     const [currentStep, setCurrentStep] = useState(1);
     const [formData, setFormData] = useState({
         district: '',
@@ -23,7 +25,8 @@ const ListLandWizard = () => {
         unit: 'decimal',
         ownershipType: 'single',
         dagNo: '',
-        khatianNo: ''
+        khatianNo: '',
+        ownerName: ''
     });
 
     const handleNext = () => {
@@ -36,23 +39,38 @@ const ListLandWizard = () => {
 
     const handleSubmit = async () => {
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/land/list`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    ...formData,
-                    ownerId: 'mock-owner-id' // Replace with actual user ID from auth context
-                }),
+            // Save to local context/storage
+            addListing({
+                district: formData.district,
+                thana: formData.thana,
+                mouza: formData.mouza,
+                size: formData.size,
+                unit: formData.unit,
+                ownershipType: formData.ownershipType,
+                dagNo: formData.dagNo,
+                khatianNo: formData.khatianNo,
+                ownerName: formData.ownerName || 'Anonymous User',
             });
 
-            if (response.ok) {
-                alert('Land listed successfully!');
-                navigate('/dashboard');
-            } else {
-                alert('Failed to list land.');
+            // Also try to send to API if available
+            try {
+                await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/land/list`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        ...formData,
+                        ownerId: 'mock-owner-id'
+                    }),
+                });
+            } catch {
+                // API might not be available, but local storage will work
+                console.log('API not available, saved locally');
             }
+
+            alert('Land listed successfully! Your listing is pending admin review.');
+            navigate('/dashboard');
         } catch (error) {
             console.error('Error listing land:', error);
             alert('An error occurred.');
@@ -120,6 +138,17 @@ const ListLandWizard = () => {
                             >
                                 <h2 className="text-2xl font-bold text-forest-green">Where is your land located?</h2>
                                 <div className="grid md:grid-cols-2 gap-6">
+                                    <div className="col-span-2">
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
+                                        <input
+                                            type="text"
+                                            name="ownerName"
+                                            value={formData.ownerName}
+                                            onChange={handleChange}
+                                            placeholder="e.g. Mohammad Rahman"
+                                            className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-forest-green focus:ring-2 focus:ring-forest-green/20 outline-none"
+                                        />
+                                    </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-1">District</label>
                                         <input
