@@ -1,5 +1,3 @@
-import { GlassCard } from '../ui/GlassCard';
-
 interface DashboardHeaderProps {
     user: {
         name: string;

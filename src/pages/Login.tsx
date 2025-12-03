@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { GlassCard } from '../components/ui/GlassCard';
 import { Button } from '../components/ui/Button';
-import { Phone, Mail, Lock, User, Shield } from 'lucide-react';
+import { Mail, Lock, User, Shield } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 
 const Login = () => {

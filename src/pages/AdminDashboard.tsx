@@ -1,6 +1,5 @@
 import ResourceManagement from '../components/admin/ResourceManagement';
 import LandListings from '../components/admin/LandListings';
-import { GlassCard } from '../components/ui/GlassCard';
 import { Logo } from '../components/ui/Logo';
 import { CountUp } from '../components/ui/CountUp';
 import { TrendingUp, ArrowUpRight } from 'lucide-react';
