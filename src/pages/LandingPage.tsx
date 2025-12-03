@@ -1,4 +1,5 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { ArrowRight, TrendingUp, Users, ShieldCheck, Sprout } from 'lucide-react';
 import { GlassCard } from '../components/ui/GlassCard';
 import { Button } from '../components/ui/Button';
@@ -33,7 +34,7 @@ const LandingPage = () => {
                         <motion.h1
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="text-5xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg"
+                            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-dark-green mb-6 drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]"
                         >
                             Stay Relieved, Optimize Your Land's Potential
                         </motion.h1>
@@ -41,7 +42,7 @@ const LandingPage = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.2 }}
-                            className="text-xl text-white/90 mb-8 font-medium"
+                            className="text-xl text-dark-green/90 mb-8 font-medium"
                         >
                             Transform your idle land into a productive, passive income asset with Bhorosha's trusted management platform.
                         </motion.p>
@@ -50,9 +51,11 @@ const LandingPage = () => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.4 }}
                         >
-                            <Button size="lg" className="bg-white text-forest-green hover:bg-white/90">
-                                Calculate Your Land's ROI <ArrowRight className="ml-2 w-5 h-5" />
-                            </Button>
+                            <Link to="/roi-calculator">
+                                <Button size="lg" className="bg-white text-forest-green hover:bg-white/90">
+                                    Calculate Your Land's ROI <ArrowRight className="ml-2 w-5 h-5" />
+                                </Button>
+                            </Link>
                         </motion.div>
                     </GlassCard>
                 </div>

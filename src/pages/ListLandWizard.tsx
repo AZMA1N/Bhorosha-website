@@ -36,7 +36,7 @@ const ListLandWizard = () => {
 
     const handleSubmit = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/land/list', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/land/list`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

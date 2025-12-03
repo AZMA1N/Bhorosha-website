@@ -28,9 +28,15 @@ app.use('/api/land', landRoutes);
 app.use('/api/landowner', dashboardRoutes);
 app.use('/api/admin', adminRoutes);
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+// Export the app for Vercel
+export default app;
+
+// Only listen if not running in Vercel (Vercel sets VERCEL environment variable)
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}
 
 // Handle graceful shutdown
 process.on('SIGINT', async () => {

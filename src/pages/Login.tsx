@@ -3,46 +3,50 @@ import { motion } from 'framer-motion';
 import { GlassCard } from '../components/ui/GlassCard';
 import { Button } from '../components/ui/Button';
 import { Phone, Mail, Lock, User, Shield } from 'lucide-react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate, Link } from 'react-router-dom';
 
 const Login = () => {
     const [activeTab, setActiveTab] = useState<'landowner' | 'admin'>('landowner');
     const [isLoading, setIsLoading] = useState(false);
-    const [phone, setPhone] = useState('');
+
+    // Form states
+    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
-    const [otp, setOtp] = useState('');
-    const [showOtp, setShowOtp] = useState(false); // State to control OTP input visibility
-    const navigate = useNavigate(); // Initialize useNavigate
+
+    const navigate = useNavigate();
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
         try {
-            const response = await fetch('http://localhost:3000/api/auth/login', {
+            const payload: any = {
+                password,
+                role: activeTab === 'landowner' ? 'LANDOWNER' : 'ADMIN'
+            };
+
+            if (activeTab === 'landowner') {
+                // Landowner: Username OR Email
+                if (username) payload.username = username;
+                if (email) payload.email = email;
+            } else {
+                // Admin: Email OR Phone
+                if (email) payload.email = email;
+                if (phone) payload.phone = phone;
+            }
+
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    phone: activeTab === 'landowner' ? phone : undefined,
-                    email: activeTab === 'admin' ? email : undefined,
-                    password: activeTab === 'admin' ? password : undefined, // Add password for admin
-                    role: activeTab === 'landowner' ? 'LANDOWNER' : 'ADMIN'
-                }),
+                body: JSON.stringify(payload),
             });
             const data = await response.json();
 
             if (response.ok) {
                 if (activeTab === 'landowner') {
-                    // For landowner, we expect OTP step next, but for now mocking direct login or OTP flow
-                    // If backend sends OTP, we should show OTP input.
-                    // Assuming backend mocks OTP for now and returns success or requires OTP verification.
-                    // Let's assume for this demo we just redirect or show OTP input.
-                    // If the backend returns "otpSent": true, we would switch to OTP view.
-                    // For simplicity in this iteration, let's assume direct login for demo or handle OTP if I implemented it.
-                    // Looking at authController, it sends otpSent: true.
-                    setShowOtp(true); // Show OTP input for landowner
+                    navigate('/dashboard');
                 } else {
-                    // Admin login success
                     navigate('/admin');
                 }
             } else {
@@ -51,30 +55,6 @@ const Login = () => {
         } catch (error) {
             console.error('Login error:', error);
             alert('Login failed');
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const handleVerifyOtp = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setIsLoading(true);
-        try {
-            const response = await fetch('http://localhost:3000/api/auth/verify-otp', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ phone, otp }),
-            });
-            const data = await response.json();
-
-            if (response.ok) {
-                navigate('/dashboard');
-            } else {
-                alert(data.error || 'Invalid OTP');
-            }
-        } catch (error) {
-            console.error('OTP error:', error);
-            alert('Verification failed');
         } finally {
             setIsLoading(false);
         }
@@ -131,28 +111,24 @@ const Login = () => {
                                 className="space-y-4"
                             >
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Username or Email</label>
                                     <div className="relative">
-                                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                                         <input
-                                            type="tel"
-                                            placeholder="+880 1XXX XXXXXX"
+                                            type="text"
+                                            placeholder="Username or Email"
                                             className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-forest-green focus:ring-2 focus:ring-forest-green/20 outline-none transition-all bg-white/50"
+                                            onChange={(e) => {
+                                                const val = e.target.value;
+                                                if (val.includes('@')) {
+                                                    setEmail(val);
+                                                    setUsername('');
+                                                } else {
+                                                    setUsername(val);
+                                                    setEmail('');
+                                                }
+                                            }}
                                             required
-                                        />
-                                    </div>
-                                </div>
-                                <div className="text-center">
-                                    <span className="text-gray-400 text-sm">Or login with</span>
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                                    <div className="relative">
-                                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                        <input
-                                            type="email"
-                                            placeholder="you@example.com"
-                                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-forest-green focus:ring-2 focus:ring-forest-green/20 outline-none transition-all bg-white/50"
                                         />
                                     </div>
                                 </div>
@@ -165,25 +141,23 @@ const Login = () => {
                                 className="space-y-4"
                             >
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Admin Email</label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Email or Phone</label>
                                     <div className="relative">
                                         <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                                         <input
-                                            type="email"
-                                            placeholder="admin@bhorosha.com"
+                                            type="text"
+                                            placeholder="Email or Phone"
                                             className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-forest-green focus:ring-2 focus:ring-forest-green/20 outline-none transition-all bg-white/50"
-                                            required
-                                        />
-                                    </div>
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                                    <div className="relative">
-                                        <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                        <input
-                                            type="password"
-                                            placeholder="••••••••"
-                                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-forest-green focus:ring-2 focus:ring-forest-green/20 outline-none transition-all bg-white/50"
+                                            onChange={(e) => {
+                                                const val = e.target.value;
+                                                if (val.includes('@')) {
+                                                    setEmail(val);
+                                                    setPhone('');
+                                                } else {
+                                                    setPhone(val);
+                                                    setEmail('');
+                                                }
+                                            }}
                                             required
                                         />
                                     </div>
@@ -191,22 +165,37 @@ const Login = () => {
                             </motion.div>
                         )}
 
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                            <div className="relative">
+                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                <input
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    placeholder="••••••••"
+                                    className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-forest-green focus:ring-2 focus:ring-forest-green/20 outline-none transition-all bg-white/50"
+                                    required
+                                />
+                            </div>
+                        </div>
+
                         <Button
                             type="submit"
                             className="w-full"
                             size="lg"
                             isLoading={isLoading}
                         >
-                            {activeTab === 'landowner' ? 'Send OTP' : 'Login to Dashboard'}
+                            Login to {activeTab === 'landowner' ? 'Dashboard' : 'Admin Panel'}
                         </Button>
                     </form>
 
                     <div className="mt-6 text-center">
                         <p className="text-sm text-gray-500">
                             Don't have an account?{' '}
-                            <a href="#" className="text-forest-green font-semibold hover:underline">
-                                List your land
-                            </a>
+                            <Link to="/register" className="text-forest-green font-semibold hover:underline">
+                                Create Account
+                            </Link>
                         </p>
                     </div>
                 </GlassCard>

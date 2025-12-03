@@ -2,10 +2,38 @@ import { GlassCard } from '../ui/GlassCard';
 import { CheckCircle, Clock, MoreHorizontal } from 'lucide-react';
 
 const listings = [
-    { id: 'L-101', location: 'Savar, Dhaka', size: '50 Dec', owner: 'Samiur Rahman', status: 'Verified' },
-    { id: 'L-102', location: 'Gazipur, Dhaka', size: '2 Acres', owner: 'Abul Kashem', status: 'Verified' },
-    { id: 'L-103', location: 'Manikganj', size: '1.5 Acres', owner: 'Rahim Uddin', status: 'Pending' },
-    { id: 'L-104', location: 'Comilla', size: '30 Dec', owner: 'Nasim Ahmed', status: 'Pending' },
+    {
+        id: 'L-101',
+        location: 'Savar, Dhaka',
+        size: '50 Dec',
+        owner: 'Samiur Rahman',
+        status: 'Verified',
+        image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=100&auto=format&fit=crop'
+    },
+    {
+        id: 'L-102',
+        location: 'Gazipur, Dhaka',
+        size: '2 Acres',
+        owner: 'Abul Kashem',
+        status: 'Verified',
+        image: 'https://images.unsplash.com/photo-1598512752271-33f913a5af13?q=80&w=100&auto=format&fit=crop'
+    },
+    {
+        id: 'L-103',
+        location: 'Manikganj',
+        size: '1.5 Acres',
+        owner: 'Rahim Uddin',
+        status: 'Pending',
+        image: 'https://images.unsplash.com/photo-1536630596251-b82f1409595a?q=80&w=100&auto=format&fit=crop'
+    },
+    {
+        id: 'L-104',
+        location: 'Comilla',
+        size: '30 Dec',
+        owner: 'Nasim Ahmed',
+        status: 'Pending',
+        image: 'https://images.unsplash.com/photo-1623227866882-c005c207758f?q=80&w=100&auto=format&fit=crop'
+    },
 ];
 
 const LandListings = () => {
@@ -20,7 +48,7 @@ const LandListings = () => {
                 <table className="w-full">
                     <thead>
                         <tr className="text-left text-sm text-gray-500 border-b border-gray-200">
-                            <th className="pb-3 font-medium">ID</th>
+                            <th className="pb-3 font-medium pl-2">Property</th>
                             <th className="pb-3 font-medium">Location</th>
                             <th className="pb-3 font-medium">Size</th>
                             <th className="pb-3 font-medium">Owner</th>
@@ -31,7 +59,16 @@ const LandListings = () => {
                     <tbody className="text-sm">
                         {listings.map((listing) => (
                             <tr key={listing.id} className="border-b border-gray-100 last:border-0 hover:bg-white/50 transition-colors">
-                                <td className="py-4 font-medium text-gray-800">{listing.id}</td>
+                                <td className="py-4 font-medium text-gray-800 pl-2">
+                                    <div className="flex items-center gap-3">
+                                        <img
+                                            src={listing.image}
+                                            alt={listing.id}
+                                            className="w-10 h-10 rounded-lg object-cover shadow-sm"
+                                        />
+                                        <span>{listing.id}</span>
+                                    </div>
+                                </td>
                                 <td className="py-4 text-gray-600">{listing.location}</td>
                                 <td className="py-4 text-gray-600">{listing.size}</td>
                                 <td className="py-4 text-gray-600">{listing.owner}</td>

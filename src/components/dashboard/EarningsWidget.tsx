@@ -8,7 +8,7 @@ const EarningsWidget = () => {
     useEffect(() => {
         const fetchEarnings = async () => {
             try {
-                const response = await fetch('http://localhost:3000/api/landowner/dashboard');
+                const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/api/landowner/earnings`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
