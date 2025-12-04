@@ -21,8 +21,8 @@ const LandingPage = () => {
                     className="absolute inset-0 z-0"
                 >
                     <img
-                        src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=2070&auto=format&fit=crop"
-                        alt="Lush Farmland"
+                        src="/images/image-1764828172958.png"
+                        alt="Farmers Working in Rice Field"
                         className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-black/20" />
@@ -116,11 +116,21 @@ const LandingPage = () => {
             </section>
 
             {/* How It Works */}
-            <section className="py-24 bg-gradient-to-b from-off-white to-white">
-                <div className="container mx-auto px-4">
+            <section className="py-24 relative overflow-hidden">
+                {/* Background Image */}
+                <div className="absolute inset-0 z-0">
+                    <img
+                        src="/images/image-1764828223105.png"
+                        alt="Rice Field Background"
+                        className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-white/40 to-white/60" />
+                </div>
+
+                <div className="container mx-auto px-4 relative z-10">
                     <div className="text-center mb-16">
-                        <h2 className="text-4xl font-bold text-forest-green mb-4">How It Works</h2>
-                        <p className="text-xl text-gray-600">Four simple steps to passive income</p>
+                        <h2 className="text-4xl font-bold text-forest-green mb-4 drop-shadow-sm">How It Works</h2>
+                        <p className="text-xl text-gray-700 font-medium">Four simple steps to passive income</p>
                     </div>
 
                     <div className="grid md:grid-cols-4 gap-8">
@@ -130,13 +140,36 @@ const LandingPage = () => {
                             { icon: <Sprout className="w-8 h-8" />, title: "Farming Starts", desc: "We deploy resources and start cultivation." },
                             { icon: <TrendingUp className="w-8 h-8" />, title: "Get Weekly Profits", desc: "Track growth and receive earnings." }
                         ].map((step, index) => (
-                            <GlassCard key={index} hoverEffect className="text-center h-full">
-                                <div className="w-16 h-16 bg-forest-green/10 rounded-full flex items-center justify-center mx-auto mb-6 text-forest-green">
-                                    {step.icon}
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: index * 0.15, duration: 0.5 }}
+                                animate={{ 
+                                    y: [0, -10, 0],
+                                }}
+                                style={{
+                                    animation: `float ${3 + index * 0.5}s ease-in-out infinite`,
+                                    animationDelay: `${index * 0.2}s`
+                                }}
+                                className="group"
+                            >
+                                <div className="h-full p-8 rounded-3xl text-center
+                                    bg-white/30 backdrop-blur-xl
+                                    border border-white/50
+                                    shadow-[0_8px_32px_rgba(31,38,135,0.15)]
+                                    hover:bg-white/50 hover:shadow-[0_8px_32px_rgba(31,38,135,0.25)]
+                                    hover:border-white/70 hover:-translate-y-2
+                                    transition-all duration-500 ease-out
+                                ">
+                                    <div className="w-16 h-16 bg-forest-green/15 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-6 text-forest-green border border-forest-green/20 group-hover:scale-110 transition-transform duration-300">
+                                        {step.icon}
+                                    </div>
+                                    <h3 className="text-xl font-bold text-forest-green mb-3">{step.title}</h3>
+                                    <p className="text-gray-700">{step.desc}</p>
                                 </div>
-                                <h3 className="text-xl font-bold text-forest-green mb-3">{step.title}</h3>
-                                <p className="text-gray-600">{step.desc}</p>
-                            </GlassCard>
+                            </motion.div>
                         ))}
                     </div>
                 </div>
