@@ -1,8 +1,6 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, TrendingUp, Users, ShieldCheck, Sprout } from 'lucide-react';
-import { GlassCard } from '../components/ui/GlassCard';
-import { Button } from '../components/ui/Button';
 import { Navbar } from '../components/layout/Navbar';
 import { ImageSlideshow, type SlideImage } from '../components/ui/ImageSlideshow';
 
@@ -60,16 +58,16 @@ const slideshowImages: SlideImage[] = [
     {
         id: 8,
         src: "/images/image-127329-1685006449.webp",
-        title: "Oyster Mushroom Farm",
-        category: "Mushroom",
-        description: "Indoor mushroom cultivation"
+        title: "Cornfield",
+        category: "Maze",
+        description: "Corn cultivation"
     },
     {
         id: 9,
         src: "/images/garlic.jpg",
-        title: "Shiitake Mushroom House",
-        category: "Mushroom",
-        description: "Premium shiitake production"
+        title: "Garlic Farm",
+        category: "Garlic",
+        description: "Premium garlic production"
     },
     {
         id: 10,
@@ -104,76 +102,133 @@ const LandingPage = () => {
                 >
                     <img
                         src="/images/image-1764828172958.png"
-                        alt="Farmers Working in Rice Field"
+                        alt="Farmer in Field"
                         className="w-full h-full object-cover"
                     />
-                    <div className="absolute inset-0 bg-black/20" />
+                    <div className="absolute inset-0 bg-black/30" />
                 </motion.div>
 
-                {/* Hero Content */}
-                <div className="container mx-auto px-4 z-10 relative">
-                    <GlassCard className="max-w-2xl mx-auto text-center p-12 backdrop-blur-xl border-white/40" float>
-                        <motion.h1
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-dark-green mb-6 drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]"
-                        >
-                            Stay Relieved, Optimize Your Land's Potential
-                        </motion.h1>
-                        <motion.p
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2 }}
-                            className="text-xl text-dark-green/90 mb-8 font-medium"
-                        >
-                            Transform your idle land into a productive, passive income asset with Bhorosha's trusted management platform.
-                        </motion.p>
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.4 }}
-                        >
-                            <Link to="/roi-calculator">
-                                <Button size="lg" className="bg-white text-forest-green hover:bg-white/90">
-                                    Calculate Your Land's ROI <ArrowRight className="ml-2 w-5 h-5" />
-                                </Button>
-                            </Link>
-                        </motion.div>
-                    </GlassCard>
+                {/* Hero Content - Clean centered text */}
+                <div className="container mx-auto px-4 z-10 relative text-center">
+                    <motion.h1
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-white mb-8 leading-tight tracking-tight"
+                        style={{ textShadow: '2px 4px 8px rgba(0,0,0,0.3)' }}
+                    >
+                        PUT YOUR LAND<br />TO WORK
+                    </motion.h1>
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3, duration: 0.8 }}
+                        className="text-xl md:text-2xl text-white/90 mb-10 max-w-2xl mx-auto font-medium italic"
+                        style={{ textShadow: '1px 2px 4px rgba(0,0,0,0.3)' }}
+                    >
+                        Unlock New Revenue Streams—<br />
+                        Transform Idle Land into a Thriving Farm with Bhorosha
+                    </motion.p>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.6, duration: 0.8 }}
+                    >
+                        <Link to="/roi-calculator">
+                            <motion.button 
+                                className="relative px-10 py-4 text-lg font-semibold text-white rounded-full overflow-hidden backdrop-blur-xl bg-white/10 border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.3)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.4)] transition-all duration-500"
+                                animate={{ 
+                                    y: [0, -8, 0],
+                                    boxShadow: [
+                                        "0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.3)",
+                                        "0 20px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.4)",
+                                        "0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.3)"
+                                    ]
+                                }}
+                                transition={{ 
+                                    duration: 3, 
+                                    repeat: Infinity, 
+                                    ease: "easeInOut" 
+                                }}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.98 }}
+                            >
+                                <span className="relative z-10 flex items-center gap-2">
+                                    Calculate Your ROI
+                                    <ArrowRight className="w-5 h-5" />
+                                </span>
+                                {/* Frost/Glass overlay effect */}
+                                <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-white/10 pointer-events-none" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-white/5 to-white/20 pointer-events-none" />
+                            </motion.button>
+                        </Link>
+                    </motion.div>
                 </div>
 
-                {/* Floating Ticker */}
-                <div className="absolute bottom-10 left-0 right-0 z-20 overflow-hidden py-4 bg-white/10 backdrop-blur-md border-y border-white/20">
-                    <div className="flex justify-center gap-12 text-white font-semibold text-lg animate-pulse">
-                        <span className="flex items-center gap-2"><Users className="w-5 h-5" /> 100+ Landowners</span>
-                        <span className="flex items-center gap-2"><Sprout className="w-5 h-5" /> 330+ Acres Managed</span>
-                        <span className="flex items-center gap-2"><ShieldCheck className="w-5 h-5" /> Forbes 30 Under 30 Honoree</span>
+                {/* Forbes 30 Under 30 Ticker */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.9, duration: 0.8 }}
+                    className="absolute bottom-8 left-0 right-0 z-10"
+                >
+                    <div className="flex justify-center gap-4 flex-wrap px-4">
+                        <div className="inline-flex items-center gap-3 px-6 py-3 backdrop-blur-xl bg-white/10 border border-white/30 rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.3)]">
+                            <ShieldCheck className="w-5 h-5 text-white/90" />
+                            <span className="text-white/90 font-medium">Forbes 30 Under 30 Honoree</span>
+                        </div>
+                        <div className="inline-flex items-center gap-3 px-6 py-3 backdrop-blur-xl bg-white/10 border border-white/30 rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.3)]">
+                            <Users className="w-5 h-5 text-white/90" />
+                            <span className="text-white/90 font-medium">10+ Landowners Onboard</span>
+                        </div>
+                        <div className="inline-flex items-center gap-3 px-6 py-3 backdrop-blur-xl bg-white/10 border border-white/30 rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.3)]">
+                            <Sprout className="w-5 h-5 text-white/90" />
+                            <span className="text-white/90 font-medium">100+ Acres Covered</span>
+                        </div>
                     </div>
-                </div>
+                </motion.div>
             </section>
 
             {/* Problem/Solution Section */}
-            <section className="py-24 bg-off-white relative">
-                <div className="container mx-auto px-4">
-                    <div className="grid md:grid-cols-2 gap-12 items-center">
+            <section className="py-24 relative overflow-hidden">
+                {/* Background Image */}
+                <div className="absolute inset-0 z-0">
+                    <img
+                        src="/images/Corn.webp"
+                        alt="Agricultural field"
+                        className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
+                </div>
+                <div className="container mx-auto px-4 relative z-10">
+                    <div className="grid md:grid-cols-2 gap-12 items-start">
                         <motion.div
                             initial={{ opacity: 0, x: -50 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
                         >
-                            <h2 className="text-4xl font-bold text-forest-green mb-6">From Idle to Ideal</h2>
+                            {/* Title - Left Aligned with Cards */}
+                            <h2 className="inline-block text-5xl md:text-6xl font-extrabold text-forest-green px-8 py-4 mb-8 rounded-2xl backdrop-blur-xl bg-white/20 border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.3)]">
+                                From Idle to Ideal
+                            </h2>
                             <div className="space-y-6">
-                                <GlassCard className="bg-red-50/50 border-red-100">
-                                    <h3 className="text-xl font-semibold text-red-800 mb-2">The Problem: Idle Land</h3>
-                                    <p className="text-gray-600">Unused land incurs maintenance costs, risks encroachment, and generates zero value.</p>
-                                </GlassCard>
-                                <div className="flex justify-center">
-                                    <ArrowRight className="w-8 h-8 text-forest-green rotate-90 md:rotate-0" />
+                                {/* Problem Card - Frosted Liquid Glass */}
+                                <div className="relative p-6 rounded-2xl overflow-hidden backdrop-blur-xl bg-white/10 border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.3)]">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-white/10 pointer-events-none" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-white/5 to-white/20 pointer-events-none" />
+                                    <h3 className="relative z-10 text-xl font-semibold text-red-400 mb-2">The Problem: Idle Land</h3>
+                                    <p className="relative z-10 text-white/90">Unused land incurs maintenance costs, risks encroachment, and generates zero value.</p>
                                 </div>
-                                <GlassCard className="bg-green-50/50 border-green-100">
-                                    <h3 className="text-xl font-semibold text-forest-green mb-2">The Solution: Productive Asset</h3>
-                                    <p className="text-gray-600">Bhorosha transforms it into a thriving farm, generating weekly profits and increasing land value.</p>
-                                </GlassCard>
+                                <div className="flex justify-center">
+                                    <ArrowRight className="w-8 h-8 text-white rotate-90 md:rotate-0" />
+                                </div>
+                                {/* Solution Card - Frosted Liquid Glass */}
+                                <div className="relative p-6 rounded-2xl overflow-hidden backdrop-blur-xl bg-white/10 border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.3)]">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-white/10 pointer-events-none" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-white/5 to-white/20 pointer-events-none" />
+                                    <h3 className="relative z-10 text-xl font-semibold text-green-400 mb-2">The Solution: Productive Asset</h3>
+                                    <p className="relative z-10 text-white/90">Bhorosha transforms it into a thriving farm, generating weekly profits and increasing land value.</p>
+                                </div>
                             </div>
                         </motion.div>
                         <motion.div

@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { GlassCard } from '../components/ui/GlassCard';
 import { Button } from '../components/ui/Button';
-import { Lock, User, Shield, Warehouse } from 'lucide-react';
+import { Logo } from '../components/ui/Logo';
+import { Lock, User, Shield } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
-    const [activeTab, setActiveTab] = useState<'landowner' | 'landleaser' | 'admin'>('landowner');
+    const [activeTab, setActiveTab] = useState<'landowner' | 'admin'>('landowner');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
-    const [isLoggingIn, setIsLoggingIn] = useState(false);
 
     // Form states
     const [username, setUsername] = useState('');
@@ -19,23 +19,20 @@ const Login = () => {
     const navigate = useNavigate();
     const { login, isAuthenticated, user } = useAuth();
 
-    // Redirect if already logged in (but not during active login process)
+    // Redirect if already logged in
     useEffect(() => {
-        if (isAuthenticated && user && !isLoggingIn) {
+        if (isAuthenticated && user) {
             if (user.role === 'admin') {
                 navigate('/admin');
-            } else if (user.role === 'leaser') {
-                navigate('/land-leaser');
             } else {
                 navigate('/dashboard');
             }
         }
-    }, [isAuthenticated, user, navigate, isLoggingIn]);
+    }, [isAuthenticated, user, navigate]);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
-        setIsLoggingIn(true);
         setError('');
 
         // Small delay for UX
@@ -46,21 +43,27 @@ const Login = () => {
         if (result.success) {
             if (result.role === 'admin') {
                 navigate('/admin');
-            } else if (result.role === 'leaser' || activeTab === 'landleaser') {
-                navigate('/land-leaser');
             } else {
                 navigate('/dashboard');
             }
         } else {
             setError(result.message);
-            setIsLoggingIn(false);
         }
 
         setIsLoading(false);
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-off-white relative overflow-hidden">
+        <div className="min-h-screen flex flex-col bg-off-white relative overflow-hidden">
+            {/* Header with Logo */}
+            <header className="absolute top-0 left-0 right-0 z-20 p-4">
+                <div className="container mx-auto">
+                    <Link to="/" className="inline-block hover:opacity-80 transition-opacity">
+                        <Logo size="md" />
+                    </Link>
+                </div>
+            </header>
+
             {/* Background Elements */}
             <div className="absolute inset-0 z-0">
                 <img
@@ -71,51 +74,46 @@ const Login = () => {
                 <div className="absolute inset-0 bg-gradient-to-br from-forest-green/10 to-transparent" />
             </div>
 
-            <div className="container mx-auto px-4 z-10">
+            <div className="flex-1 flex items-center justify-center container mx-auto px-4 z-10">
                 <GlassCard className="max-w-md mx-auto backdrop-blur-xl" float>
                     <div className="text-center mb-8">
                         <h1 className="text-3xl font-bold text-forest-green mb-2">Welcome Back</h1>
                         <p className="text-gray-600">Access your Bhorosha account</p>
                     </div>
 
-                    {/* Tabs - Show only for non-admin */}
-                    {activeTab !== 'admin' ? (
-                        <div className="flex p-1 bg-gray-100/50 rounded-xl mb-6">
-                            <button
-                                onClick={() => {
-                                    setActiveTab('landowner');
-                                    setUsername('');
-                                    setPassword('');
-                                    setError('');
-                                }}
-                                className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium transition-all ${activeTab === 'landowner'
+                    {/* Tabs */}
+                    <div className="flex p-1 bg-gray-100/50 rounded-xl mb-6">
+                        <button
+                            onClick={() => {
+                                setActiveTab('landowner');
+                                setUsername('');
+                                setPassword('');
+                                setError('');
+                            }}
+                            className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium transition-all ${
+                                activeTab === 'landowner'
                                     ? 'bg-white text-forest-green shadow-sm'
                                     : 'text-gray-500 hover:text-gray-700'
-                                    }`}
-                            >
-                                <User className="w-4 h-4" /> Landowner
-                            </button>
-                            <button
-                                onClick={() => {
-                                    setActiveTab('landleaser');
-                                    setUsername('');
-                                    setPassword('');
-                                    setError('');
-                                }}
-                                className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium transition-all ${activeTab === 'landleaser'
+                            }`}
+                        >
+                            <User className="w-4 h-4" /> Landowner
+                        </button>
+                        <button
+                            onClick={() => {
+                                setActiveTab('admin');
+                                setUsername('');
+                                setPassword('');
+                                setError('');
+                            }}
+                            className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium transition-all ${
+                                activeTab === 'admin'
                                     ? 'bg-white text-forest-green shadow-sm'
                                     : 'text-gray-500 hover:text-gray-700'
-                                    }`}
-                            >
-                                <Warehouse className="w-4 h-4" /> Land Leaser
-                            </button>
-                        </div>
-                    ) : (
-                        <div className="flex items-center justify-center gap-2 p-3 bg-forest-green/10 rounded-xl mb-6 border border-forest-green/20">
-                            <Shield className="w-5 h-5 text-forest-green" />
-                            <span className="text-forest-green font-semibold">Admin Access</span>
-                        </div>
-                    )}
+                            }`}
+                        >
+                            <Shield className="w-4 h-4" /> Admin
+                        </button>
+                    </div>
 
                     {/* Error Message */}
                     {error && (
@@ -140,7 +138,7 @@ const Login = () => {
                                         type="text"
                                         value={username}
                                         onChange={(e) => setUsername(e.target.value)}
-                                        placeholder={activeTab === 'admin' ? 'Admin Username' : 'e.g. Samin'}
+                                        placeholder={activeTab === 'landowner' ? 'e.g. Samin' : 'Admin Username'}
                                         className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-forest-green focus:ring-2 focus:ring-forest-green/20 outline-none transition-all bg-white/50"
                                         required
                                     />
@@ -169,50 +167,17 @@ const Login = () => {
                             size="lg"
                             isLoading={isLoading}
                         >
-                            {activeTab === 'admin' ? 'Login to Admin Panel' : 'Login to Dashboard'}
+                            Login to {activeTab === 'landowner' ? 'Dashboard' : 'Admin Panel'}
                         </Button>
                     </form>
 
-                    <div className="mt-6 text-center space-y-3">
-                        {activeTab !== 'admin' && (
-                            <p className="text-sm text-gray-500">
-                                Don't have an account?{' '}
-                                <Link to="/register" className="text-forest-green font-semibold hover:underline">
-                                    Create Account
-                                </Link>
-                            </p>
-                        )}
-                        
-                        {activeTab !== 'admin' ? (
-                            <p className="text-sm text-gray-500">
-                                For admin access,{' '}
-                                <button 
-                                    onClick={() => {
-                                        setActiveTab('admin');
-                                        setUsername('');
-                                        setPassword('');
-                                        setError('');
-                                    }}
-                                    className="text-forest-green font-semibold hover:underline"
-                                >
-                                    login here
-                                </button>
-                            </p>
-                        ) : (
-                            <p className="text-sm text-gray-500">
-                                <button 
-                                    onClick={() => {
-                                        setActiveTab('landowner');
-                                        setUsername('');
-                                        setPassword('');
-                                        setError('');
-                                    }}
-                                    className="text-forest-green font-semibold hover:underline"
-                                >
-                                    ← Back to user login
-                                </button>
-                            </p>
-                        )}
+                    <div className="mt-6 text-center">
+                        <p className="text-sm text-gray-500">
+                            Don't have an account?{' '}
+                            <Link to="/register" className="text-forest-green font-semibold hover:underline">
+                                Create Account
+                            </Link>
+                        </p>
                     </div>
                 </GlassCard>
             </div>
