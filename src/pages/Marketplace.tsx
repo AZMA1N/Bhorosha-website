@@ -1,8 +1,95 @@
 import { Navbar } from '../components/layout/Navbar';
 import { GlassCard } from '../components/ui/GlassCard';
 import { Button } from '../components/ui/Button';
+import { ImageSlideshow, type SlideImage } from '../components/ui/ImageSlideshow';
 import { motion } from 'framer-motion';
-import { MapPin, Sprout, TrendingUp, Filter, ArrowRight, Heart, Search } from 'lucide-react';
+import { MapPin, Sprout, TrendingUp, Filter, ArrowRight, Heart, Search, Fish, Leaf, Wheat } from 'lucide-react';
+
+// Slideshow images - 5 pond, 2 millet, 2 mushroom, 1 micro green, 1 cashewnut apple
+const slideshowImages: SlideImage[] = [
+    // Pond images (5)
+    {
+        id: 1,
+        src: "/images/Pond.webp",
+        title: "Premium Fish Pond",
+        category: "Pond",
+        description: "High-yield aquaculture opportunity with established fish farming infrastructure"
+    },
+    {
+        id: 2,
+        src: "/images/Pond1.avif",
+        title: "Commercial Fishery",
+        category: "Pond",
+        description: "Large-scale pond suitable for tilapia, carp, and catfish farming"
+    },
+    {
+        id: 3,
+        src: "/images/Pond03.webp",
+        title: "Organic Fish Farm",
+        category: "Pond",
+        description: "Eco-friendly pond with natural filtration systems"
+    },
+    {
+        id: 4,
+        src: "/images/Pond.webp",
+        title: "Shrimp Cultivation Pond",
+        category: "Pond",
+        description: "Specialized brackish water pond for shrimp farming"
+    },
+    {
+        id: 5,
+        src: "/images/Pond1.avif",
+        title: "Mixed Aquaculture Pond",
+        category: "Pond",
+        description: "Integrated fish and vegetable production system"
+    },
+    // Millet images (2)
+    {
+        id: 6,
+        src: "/images/Millet.jpg",
+        title: "Golden Millet Field",
+        category: "Millet",
+        description: "Drought-resistant millet cultivation with high nutritional value"
+    },
+    {
+        id: 7,
+        src: "/images/Millet01.jpg",
+        title: "Organic Millet Farm",
+        category: "Millet",
+        description: "Certified organic millet production for health-conscious markets"
+    },
+    // Mushroom images (2) - using available images as placeholders
+    {
+        id: 8,
+        src: "/images/image-127329-1685006449.webp",
+        title: "Oyster Mushroom Farm",
+        category: "Mushroom",
+        description: "Indoor mushroom cultivation with controlled environment"
+    },
+    {
+        id: 9,
+        src: "/images/garlic.jpg",
+        title: "Shiitake Mushroom House",
+        category: "Mushroom",
+        description: "Premium shiitake production for gourmet markets"
+    },
+    // Micro green (1)
+    {
+        id: 10,
+        src: "/images/microgreen-problems.webp",
+        title: "Microgreens Production",
+        category: "Micro Green",
+        description: "Urban farming microgreens with rapid harvest cycles"
+    },
+    // Cashewnut Apple (1)
+    {
+        id: 11,
+        src: "/images/Sunflower.jpg",
+        title: "Cashew Nut Orchard",
+        category: "Cashewnut Apple",
+        description: "Mature cashew plantation with fruit and nut production"
+    },
+];
 
 const Marketplace = () => {
     const listings = [
@@ -96,7 +183,7 @@ const Marketplace = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-xl p-4 mb-16 border border-white/50"
+                    className="bg-white/90 backdrop-blur-xl rounded-2xl shadow-xl p-4 mb-12 border border-white/50"
                 >
                     <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                         <div className="relative w-full md:w-96">
@@ -121,6 +208,51 @@ const Marketplace = () => {
                         </div>
                     </div>
                 </motion.div>
+
+                {/* What It Does Section with Slideshow */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="mb-16"
+                >
+                    {/* Category Icons */}
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+                        <div className="bg-blue-50 rounded-xl p-4 text-center border border-blue-100 hover:shadow-lg transition-shadow cursor-pointer">
+                            <Fish className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+                            <p className="text-sm font-medium text-blue-700">Ponds</p>
+                        </div>
+                        <div className="bg-amber-50 rounded-xl p-4 text-center border border-amber-100 hover:shadow-lg transition-shadow cursor-pointer">
+                            <Wheat className="w-8 h-8 text-amber-600 mx-auto mb-2" />
+                            <p className="text-sm font-medium text-amber-700">Millet Farms</p>
+                        </div>
+                        <div className="bg-purple-50 rounded-xl p-4 text-center border border-purple-100 hover:shadow-lg transition-shadow cursor-pointer">
+                            <div className="w-8 h-8 mx-auto mb-2 flex items-center justify-center text-2xl">🍄</div>
+                            <p className="text-sm font-medium text-purple-700">Mushroom</p>
+                        </div>
+                        <div className="bg-green-50 rounded-xl p-4 text-center border border-green-100 hover:shadow-lg transition-shadow cursor-pointer">
+                            <Leaf className="w-8 h-8 text-green-600 mx-auto mb-2" />
+                            <p className="text-sm font-medium text-green-700">Micro Green</p>
+                        </div>
+                        <div className="bg-orange-50 rounded-xl p-4 text-center border border-orange-100 col-span-2 md:col-span-1 hover:shadow-lg transition-shadow cursor-pointer">
+                            <div className="w-8 h-8 mx-auto mb-2 flex items-center justify-center text-2xl">🥜</div>
+                            <p className="text-sm font-medium text-orange-700">Cashewnut Apple</p>
+                        </div>
+                    </div>
+
+                    {/* Image Slideshow */}
+                    <ImageSlideshow images={slideshowImages} autoPlayInterval={5000} />
+                </motion.div>
+
+                {/* Listings Header */}
+                <div className="flex items-center justify-between mb-8">
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
+                        Available Listings
+                    </h2>
+                    <span className="text-gray-500 text-sm">
+                        {listings.length} properties found
+                    </span>
+                </div>
 
                 {/* Listings Grid */}
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

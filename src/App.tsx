@@ -5,6 +5,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import ListLandWizard from './pages/ListLandWizard';
 import AdminDashboard from './pages/AdminDashboard';
+import LandLeaserDashboard from './pages/LandLeaserDashboard';
 import AboutUs from './pages/AboutUs';
 import Contact from './pages/Contact';
 import ROICalculator from './pages/ROICalculator';
@@ -24,6 +25,7 @@ function App() {
         <Route path="/dashboard/my-lands" element={<MyLands />} />
         <Route path="/dashboard/financials" element={<Financials />} />
         <Route path="/dashboard/settings" element={<Settings />} />
+        <Route path="/land-leaser" element={<LandLeaserDashboard />} />
         <Route path="/list-land" element={<ListLandWizard />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/about" element={<AboutUs />} />

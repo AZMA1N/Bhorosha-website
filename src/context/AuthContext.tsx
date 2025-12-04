@@ -5,7 +5,7 @@ export interface User {
     username: string;
     email: string;
     name: string;
-    role: 'user' | 'admin';
+    role: 'user' | 'admin' | 'leaser';
     avatar?: string;
     phone?: string;
 }
@@ -23,6 +23,7 @@ const STORAGE_KEY = 'bhorosha_auth_user';
 
 // Hardcoded credentials
 const USERS: { username: string; password: string; user: User }[] = [
+    // Landowner accounts
     {
         username: 'karim',
         password: 'karim123',
@@ -49,6 +50,34 @@ const USERS: { username: string; password: string; user: User }[] = [
             avatar: 'RU'
         }
     },
+    // Land Leaser accounts
+    {
+        username: 'faruk',
+        password: 'faruk123',
+        user: {
+            id: 'leaser-001',
+            username: 'faruk',
+            email: 'faruk@agrofarm.com',
+            name: 'Faruk Hossain',
+            role: 'leaser',
+            phone: '+880 1555-123456',
+            avatar: 'FH'
+        }
+    },
+    {
+        username: 'jamal',
+        password: 'jamal123',
+        user: {
+            id: 'leaser-002',
+            username: 'jamal',
+            email: 'jamal@greenfields.com',
+            name: 'Jamal Mia',
+            role: 'leaser',
+            phone: '+880 1666-789012',
+            avatar: 'JM'
+        }
+    },
+    // Admin account
     {
         username: 'admin',
         password: 'admin123',

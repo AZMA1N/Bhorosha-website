@@ -32,21 +32,21 @@ export const Navbar = () => {
         <nav className={clsx(
             "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
             isScrolled || !isLanding
-                ? "bg-white/80 backdrop-blur-md border-b border-white/20 shadow-sm py-2"
-                : "bg-white/5 backdrop-blur-md border-b border-white/10 py-4"
+                ? "bg-white/80 backdrop-blur-md border-b border-white/20 shadow-sm py-3"
+                : "bg-white/5 backdrop-blur-md border-b border-white/10 py-5"
         )}>
             <div className="container mx-auto px-4 flex items-center justify-between">
                 <Link to="/">
                     <Logo light={!isScrolled && isLanding} />
                 </Link>
 
-                <div className="hidden md:flex items-center gap-8">
+                <div className="hidden md:flex items-center gap-10">
                     {navLinks.map((link) => (
                         <Link
                             key={link.path}
                             to={link.path}
                             className={clsx(
-                                "text-sm font-medium transition-colors hover:text-forest-green",
+                                "text-base font-semibold transition-colors hover:text-forest-green",
                                 location.pathname === link.path
                                     ? "text-forest-green"
                                     : (!isScrolled && isLanding ? "text-white/90 hover:text-white" : "text-gray-600")
@@ -59,12 +59,12 @@ export const Navbar = () => {
 
                 <div className="flex items-center gap-4">
                     <Link to="/login">
-                        <Button size="sm">
+                        <Button size="md" className="text-base px-5 py-2.5">
                             Log In
                         </Button>
                     </Link>
                     <Link to="/list-land">
-                        <Button size="sm">List Your Land</Button>
+                        <Button size="md" className="text-base px-5 py-2.5">List Your Land</Button>
                     </Link>
                 </div>
             </div>

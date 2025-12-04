@@ -4,6 +4,88 @@ import { ArrowRight, TrendingUp, Users, ShieldCheck, Sprout } from 'lucide-react
 import { GlassCard } from '../components/ui/GlassCard';
 import { Button } from '../components/ui/Button';
 import { Navbar } from '../components/layout/Navbar';
+import { ImageSlideshow, type SlideImage } from '../components/ui/ImageSlideshow';
+
+// Slideshow images - 5 pond, 2 millet, 2 mushroom, 1 micro green, 1 cashewnut apple
+const slideshowImages: SlideImage[] = [
+    {
+        id: 1,
+        src: "/images/Pond.webp",
+        title: "Premium Fish Pond",
+        category: "Pond",
+        description: "High-yield aquaculture opportunity"
+    },
+    {
+        id: 2,
+        src: "/images/Pond1.avif",
+        title: "Commercial Fishery",
+        category: "Pond",
+        description: "Large-scale pond for tilapia and catfish"
+    },
+    {
+        id: 3,
+        src: "/images/Pond03.webp",
+        title: "Organic Fish Farm",
+        category: "Pond",
+        description: "Eco-friendly pond with natural systems"
+    },
+    {
+        id: 4,
+        src: "/images/Pond.webp",
+        title: "Shrimp Cultivation Pond",
+        category: "Pond",
+        description: "Specialized brackish water pond"
+    },
+    {
+        id: 5,
+        src: "/images/Pond1.avif",
+        title: "Mixed Aquaculture Pond",
+        category: "Pond",
+        description: "Integrated fish and vegetable system"
+    },
+    {
+        id: 6,
+        src: "/images/Millet.jpg",
+        title: "Golden Millet Field",
+        category: "Millet",
+        description: "Drought-resistant millet cultivation"
+    },
+    {
+        id: 7,
+        src: "/images/Millet01.jpg",
+        title: "Organic Millet Farm",
+        category: "Millet",
+        description: "Certified organic millet production"
+    },
+    {
+        id: 8,
+        src: "/images/image-127329-1685006449.webp",
+        title: "Oyster Mushroom Farm",
+        category: "Mushroom",
+        description: "Indoor mushroom cultivation"
+    },
+    {
+        id: 9,
+        src: "/images/garlic.jpg",
+        title: "Shiitake Mushroom House",
+        category: "Mushroom",
+        description: "Premium shiitake production"
+    },
+    {
+        id: 10,
+        src: "/images/microgreen-problems.webp",
+        title: "Microgreens Production",
+        category: "Micro Green",
+        description: "Urban farming with rapid harvest"
+    },
+    {
+        id: 11,
+        src: "/images/Sunflower.jpg",
+        title: "Cashew Nut Orchard",
+        category: "Cashewnut Apple",
+        description: "Mature cashew plantation"
+    },
+];
 
 const LandingPage = () => {
     const { scrollY } = useScroll();
@@ -96,20 +178,9 @@ const LandingPage = () => {
                         </motion.div>
                         <motion.div
                             style={{ y: y2 }}
-                            className="relative h-[600px] rounded-3xl overflow-hidden shadow-2xl"
+                            className="relative rounded-3xl overflow-hidden shadow-2xl"
                         >
-                            <img
-                                src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2832&auto=format&fit=crop"
-                                alt="Transformation"
-                                className="w-full h-full object-cover"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-forest-green/80 to-transparent flex items-end p-8">
-                                <div className="text-white">
-                                    <p className="text-sm uppercase tracking-wider mb-2">Live Project</p>
-                                    <h3 className="text-3xl font-bold">Savar Model Farm</h3>
-                                    <p className="mt-2 text-white/80">Yielding 25% above market average</p>
-                                </div>
-                            </div>
+                            <ImageSlideshow images={slideshowImages} autoPlayInterval={4000} />
                         </motion.div>
                     </div>
                 </div>
