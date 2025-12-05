@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, TrendingUp, Users, ShieldCheck, Sprout } from 'lucide-react';
+import { useRef } from 'react';
+import { ArrowRight, TrendingUp, Users, ShieldCheck, Sprout, MoveDown } from 'lucide-react';
 import { Navbar } from '../components/layout/Navbar';
 import { ImageSlideshow, type SlideImage } from '../components/ui/ImageSlideshow';
 
@@ -89,6 +90,25 @@ const LandingPage = () => {
     const { scrollY } = useScroll();
     const y1 = useTransform(scrollY, [0, 500], [0, 200]);
     const y2 = useTransform(scrollY, [0, 500], [0, -150]);
+    
+    // Ref for Problem/Solution section scroll tracking
+    const problemSolutionRef = useRef<HTMLDivElement>(null);
+    const { scrollYProgress: sectionProgress } = useScroll({
+        target: problemSolutionRef,
+        offset: ["start end", "end start"]
+    });
+    
+    // Transform values for Problem card (shrinks as you scroll)
+    const problemScale = useTransform(sectionProgress, [0.2, 0.5], [1, 0.85]);
+    const problemOpacity = useTransform(sectionProgress, [0.2, 0.5], [1, 0.7]);
+    
+    // Transform values for Solution card (grows as you scroll)
+    const solutionScale = useTransform(sectionProgress, [0.3, 0.6], [0.9, 1.05]);
+    const solutionOpacity = useTransform(sectionProgress, [0.3, 0.6], [0.8, 1]);
+    
+    // Arrow animation (slides down from problem to solution)
+    const arrowY = useTransform(sectionProgress, [0.2, 0.5], [-10, 70]);
+    const arrowScale = useTransform(sectionProgress, [0.2, 0.35, 0.5], [1, 1.4, 1]);
 
     return (
         <div className="min-h-screen overflow-hidden">
@@ -165,7 +185,7 @@ const LandingPage = () => {
                     </motion.div>
                 </div>
 
-                {/* Forbes 30 Under 30 Ticker */}
+                {/* Trust Badges Ticker */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -175,7 +195,11 @@ const LandingPage = () => {
                     <div className="flex justify-center gap-4 flex-wrap px-4">
                         <div className="inline-flex items-center gap-3 px-6 py-3 backdrop-blur-xl bg-white/10 border border-white/30 rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.3)]">
                             <ShieldCheck className="w-5 h-5 text-white/90" />
-                            <span className="text-white/90 font-medium">Forbes 30 Under 30 Honoree</span>
+                            <span className="text-white/90 font-medium">Trusted by STARTUP BANGLADESH LTD</span>
+                        </div>
+                        <div className="inline-flex items-center gap-3 px-6 py-3 backdrop-blur-xl bg-white/10 border border-white/30 rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.3)]">
+                            <ShieldCheck className="w-5 h-5 text-white/90" />
+                            <span className="text-white/90 font-medium">Supported by ICT Ministry</span>
                         </div>
                         <div className="inline-flex items-center gap-3 px-6 py-3 backdrop-blur-xl bg-white/10 border border-white/30 rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.3)]">
                             <Users className="w-5 h-5 text-white/90" />
@@ -190,7 +214,7 @@ const LandingPage = () => {
             </section>
 
             {/* Problem/Solution Section */}
-            <section className="py-24 relative overflow-hidden">
+            <section className="py-24 relative overflow-hidden" ref={problemSolutionRef}>
                 {/* Background Image */}
                 <div className="absolute inset-0 z-0">
                     <img
@@ -208,27 +232,42 @@ const LandingPage = () => {
                             viewport={{ once: true }}
                         >
                             {/* Title - Left Aligned with Cards */}
-                            <h2 className="inline-block text-5xl md:text-6xl font-extrabold text-forest-green px-8 py-4 mb-8 rounded-2xl backdrop-blur-xl bg-white/20 border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.3)]">
+                            <h2 className="inline-block text-5xl md:text-6xl font-extrabold text-emerald-800 px-8 py-4 mb-8 rounded-2xl backdrop-blur-xl bg-white/20 border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.3)]">
                                 From Idle to Ideal
                             </h2>
                             <div className="space-y-6">
-                                {/* Problem Card - Frosted Liquid Glass */}
-                                <div className="relative p-6 rounded-2xl overflow-hidden backdrop-blur-xl bg-white/10 border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.3)]">
+                                {/* Problem Card - Frosted Liquid Glass with Scroll Animation */}
+                                <motion.div 
+                                    className="relative p-8 rounded-2xl overflow-hidden backdrop-blur-xl bg-white/10 border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.3)] origin-top"
+                                    style={{ scale: problemScale, opacity: problemOpacity }}
+                                >
                                     <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-white/10 pointer-events-none" />
                                     <div className="absolute inset-0 bg-gradient-to-t from-white/5 to-white/20 pointer-events-none" />
-                                    <h3 className="relative z-10 text-xl font-semibold text-red-400 mb-2">The Problem: Idle Land</h3>
-                                    <p className="relative z-10 text-white/90">Unused land incurs maintenance costs, risks encroachment, and generates zero value.</p>
-                                </div>
-                                <div className="flex justify-center">
-                                    <ArrowRight className="w-8 h-8 text-white rotate-90 md:rotate-0" />
-                                </div>
-                                {/* Solution Card - Frosted Liquid Glass */}
-                                <div className="relative p-6 rounded-2xl overflow-hidden backdrop-blur-xl bg-white/10 border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.3)]">
+                                    <h3 className="relative z-10 text-3xl md:text-4xl font-bold text-red-400 mb-3">The Problem: Idle Land</h3>
+                                    <p className="relative z-10 text-lg md:text-xl text-white/90">Unused land incurs maintenance costs, risks encroachment, and generates zero value.</p>
+                                </motion.div>
+                                {/* Animated Arrow - Slides from Problem to Solution */}
+                                <motion.div 
+                                    className="flex justify-center py-2"
+                                    style={{ y: arrowY }}
+                                >
+                                    <motion.div 
+                                        style={{ scale: arrowScale }}
+                                        className="text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]"
+                                    >
+                                        <MoveDown className="w-12 h-12" />
+                                    </motion.div>
+                                </motion.div>
+                                {/* Solution Card - Frosted Liquid Glass with Scroll Animation */}
+                                <motion.div 
+                                    className="relative p-8 rounded-2xl overflow-hidden backdrop-blur-xl bg-white/10 border border-white/30 shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.3)] origin-bottom"
+                                    style={{ scale: solutionScale, opacity: solutionOpacity }}
+                                >
                                     <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-white/10 pointer-events-none" />
                                     <div className="absolute inset-0 bg-gradient-to-t from-white/5 to-white/20 pointer-events-none" />
-                                    <h3 className="relative z-10 text-xl font-semibold text-green-400 mb-2">The Solution: Productive Asset</h3>
-                                    <p className="relative z-10 text-white/90">Bhorosha transforms it into a thriving farm, generating weekly profits and increasing land value.</p>
-                                </div>
+                                    <h3 className="relative z-10 text-3xl md:text-4xl font-bold text-green-400 mb-3">The Solution: Productive Asset</h3>
+                                    <p className="relative z-10 text-lg md:text-xl text-white/90">Bhorosha transforms it into a thriving farm, generating weekly profits and increasing land value.</p>
+                                </motion.div>
                             </div>
                         </motion.div>
                         <motion.div
