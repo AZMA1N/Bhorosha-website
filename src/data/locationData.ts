@@ -1,43 +1,48 @@
-// Base rates per decimal (by Division)
+// Realistic agricultural land lease rates in Bangladesh
+// Based on average lease rates: ৳8,000-15,000 per bigha/year (1 bigha = 33 decimals)
+// Converted to monthly rate per decimal: ৳20-40/decimal/month
+// These rates include profit share from crops (typically 10-20% of yield goes to landowner)
+
+// Base rates per decimal per MONTH (by Division)
 export const baseRates: Record<string, number> = {
-    'Dhaka': 5000,
-    'Chittagong': 4500,
-    'Sylhet': 4000,
-    'Rajshahi': 3500,
-    'Khulna': 3500,
-    'Barisal': 3000,
-    'Rangpur': 3000,
-    'Mymensingh': 3500,
+    'Dhaka': 45,      // Higher due to proximity to capital, better infrastructure
+    'Chittagong': 40, // Port city region, good logistics
+    'Sylhet': 35,     // Tea and rice growing region
+    'Rajshahi': 32,   // Major rice and mango belt
+    'Khulna': 30,     // Shrimp and agriculture region
+    'Barisal': 28,    // Coastal agriculture
+    'Rangpur': 25,    // Lower land values, rice focused
+    'Mymensingh': 33, // Fertile agricultural zone
 };
 
-// Specific rates per District (overrides Division base rate)
+// Specific rates per District per decimal per MONTH (overrides Division base rate)
 export const districtRates: Record<string, number> = {
-    // Dhaka Division
-    'Dhaka': 6000, 'Gazipur': 5500, 'Narayanganj': 5800, 'Tangail': 4800,
-    'Narsingdi': 5200, 'Manikganj': 4500, 'Munshiganj': 5000, 'Faridpur': 4200,
+    // Dhaka Division - Higher rates near urban areas
+    'Dhaka': 55, 'Gazipur': 50, 'Narayanganj': 52, 'Tangail': 42,
+    'Narsingdi': 45, 'Manikganj': 38, 'Munshiganj': 44, 'Faridpur': 35,
 
     // Chittagong Division
-    'Chittagong': 5500, 'Comilla': 5000, 'Feni': 4800, 'Brahmanbaria': 4500,
-    'Noakhali': 4200, 'Chandpur': 4600, 'Cox\'s Bazar': 5200,
+    'Chittagong': 48, 'Comilla': 42, 'Feni': 38, 'Brahmanbaria': 36,
+    'Noakhali': 34, 'Chandpur': 37, 'Cox\'s Bazar': 40,
 
-    // Sylhet Division
-    'Sylhet': 4800, 'Moulvibazar': 4500, 'Habiganj': 4200, 'Sunamganj': 3800,
+    // Sylhet Division - Tea and wetland rice
+    'Sylhet': 40, 'Moulvibazar': 38, 'Habiganj': 35, 'Sunamganj': 30,
 
-    // Rajshahi Division
-    'Rajshahi': 4000, 'Bogra': 4200, 'Pabna': 3800, 'Naogaon': 3600,
-    'Natore': 3800, 'Chapainawabganj': 3900,
+    // Rajshahi Division - Rice and mango belt
+    'Rajshahi': 35, 'Bogra': 36, 'Pabna': 32, 'Naogaon': 30,
+    'Natore': 31, 'Chapainawabganj': 34,
 
-    // Khulna Division
-    'Khulna': 4000, 'Jessore': 4200, 'Satkhira': 3800, 'Kushtia': 3900, 'Jhenaidah': 3700,
+    // Khulna Division - Shrimp and coastal agriculture
+    'Khulna': 33, 'Jessore': 35, 'Satkhira': 32, 'Kushtia': 33, 'Jhenaidah': 30,
 
-    // Barisal Division
-    'Barisal': 3500, 'Patuakhali': 3200, 'Bhola': 3000, 'Pirojpur': 3100,
+    // Barisal Division - Coastal rice and vegetables
+    'Barisal': 30, 'Patuakhali': 27, 'Bhola': 25, 'Pirojpur': 26,
 
-    // Rangpur Division
-    'Rangpur': 3500, 'Dinajpur': 3600, 'Gaibandha': 3200, 'Kurigram': 2800,
+    // Rangpur Division - Northern agricultural zone
+    'Rangpur': 28, 'Dinajpur': 30, 'Gaibandha': 26, 'Kurigram': 22,
 
-    // Mymensingh Division
-    'Mymensingh': 4000, 'Jamalpur': 3600, 'Sherpur': 3500, 'Netrokona': 3400,
+    // Mymensingh Division - Fertile plains
+    'Mymensingh': 35, 'Jamalpur': 30, 'Sherpur': 28, 'Netrokona': 27,
 };
 
 // Districts by Division
@@ -52,10 +57,14 @@ export const districtsByDivision: Record<string, string[]> = {
     'Mymensingh': ['Mymensingh', 'Jamalpur', 'Sherpur', 'Netrokona'],
 };
 
-// Multipliers based on land type
+// Multipliers based on land type (reflects actual yield differences)
+// Agricultural: Base rate for standard crops (rice, wheat, vegetables)
+// Orchard: Higher returns from fruits (mango, litchi, guava) - 40-60% premium
+// Fallow: Lower initial returns but can be developed - 30% less
+// Pond: Fish/shrimp farming has good returns - 80% premium in coastal areas
 export const typeMultipliers: Record<string, number> = {
-    'Agricultural': 1.0,
-    'Orchard': 1.5,
-    'Fallow': 0.8,
-    'Pond': 1.2,
+    'Agricultural': 1.0,   // Base rice/crop farming
+    'Orchard': 1.5,        // Fruit orchards yield 50% more
+    'Fallow': 0.7,         // Unused land, needs development
+    'Pond': 1.8,           // Fish/shrimp farming - high returns
 };
